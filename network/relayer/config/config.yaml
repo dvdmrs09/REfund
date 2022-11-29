@@ -1,0 +1,47 @@
+global:
+    api-listen-addr: :5183
+    timeout: 10s
+    memo: ""
+    light-cache-size: 20
+chains:
+    - type: cosmos
+      value:
+        key: defund
+        chain-id: defund
+        rpc-addr: https://localhost:26657
+        account-prefix: defund
+        keyring-backend: test
+        gas-adjustment: 1.2
+        gas-prices: 0.01ufetf
+        debug: true
+        timeout: 20s
+        output-format: json
+        sign-mode: direct
+    - type: cosmos
+      value:
+        key: osmo
+        chain-id: osmo-test-4
+        rpc-addr: https://rpc-test.osmosis.zone:443
+        account-prefix: osmo
+        keyring-backend: test
+        gas-adjustment: 1.2
+        gas-prices: 0.01uosmo
+        debug: true
+        timeout: 20s
+        output-format: json
+        sign-mode: direct
+paths:
+    defundosmosis:
+        src:
+            chain-id: defund
+            client-id: 07-tendermint-0
+            connection-id: connection-0
+        dst:
+            chain-id: osmo-test-4
+            client-id: 07-tendermint-2517
+            connection-id: connection-2030
+        src-channel-filter:
+            rule: ""
+            channel-list: []
+        interquery:
+            query: true

@@ -1,0 +1,67 @@
+syntax = "proto3";
+package defundlabs.defund.etf;
+
+import "etf/fund.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/defund-labs/defund/x/etf/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc CreateFund(MsgCreateFund) returns (MsgCreateFundResponse);
+  rpc Create(MsgCreate) returns (MsgCreateResponse);
+  rpc Redeem(MsgRedeem) returns (MsgRedeemResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateFund {
+  string creator = 1;
+
+  string symbol = 2;
+  string name = 3;
+  string description = 4;
+  string holdings = 5;
+  int64 rebalance = 6;
+  string baseDenom = 7;
+  string startingPrice = 8;
+}
+message MsgCreateFundResponse {}
+
+message MsgCreate {
+  string creator = 1;
+
+  string fund = 2;
+  cosmos.base.v1beta1.Coin tokenIn = 3;
+  string channel = 4;
+  // Timeout height relative to the current block height.
+  // The timeout is disabled when set to 0.
+  string timeout_height = 5;
+  // Timeout timestamp in absolute nanoseconds since unix epoch.
+  // The timeout is disabled when set to 0.
+  uint64 timeout_timestamp = 6;
+}
+
+message MsgCreateResponse {
+}
+
+message AddressMap {
+  string osmosisAddress = 1;
+}
+
+message MsgRedeem {
+  string creator = 1;
+
+  string fund = 2;
+  cosmos.base.v1beta1.Coin amount = 3;
+  AddressMap addresses = 4;
+}
+
+message MsgRedeemResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

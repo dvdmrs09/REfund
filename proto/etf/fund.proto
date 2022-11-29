@@ -1,0 +1,66 @@
+syntax = "proto3";
+package defundlabs.defund.etf;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/defund-labs/defund/x/etf/types";
+
+message BaseDenom {
+  string onDefund = 1;
+  string onBroker = 2;
+}
+
+message FundPrice {
+  string id = 1;
+  int64 height = 2;
+  google.protobuf.Timestamp time = 3 [
+    (gogoproto.stdtime) = true,
+    (gogoproto.nullable) = false,
+    (gogoproto.moretags) = "yaml:\"time\""
+  ];
+  cosmos.base.v1beta1.Coin amount = 4;
+  string symbol = 5;
+}
+
+message Balances {
+  repeated cosmos.base.v1beta1.Coin balances = 1;
+}
+
+message Holding {
+  string token = 1;
+  int64 percent = 2;
+  // Pool ID of the Pool for this holding on Broker
+  uint64 poolId = 3;
+  // Broker Id for the Broker
+  string brokerId = 4;
+  // the type of the asset. Valid types are spot, staked
+  string type = 5;
+}
+
+message Fund {
+  string symbol = 1;
+  string address = 2;
+  string name = 3; 
+  string description = 4; 
+  cosmos.base.v1beta1.Coin shares = 5 [
+    (gogoproto.moretags) = "yaml:\"total_shares\"",
+    (gogoproto.nullable) = true
+  ];
+  repeated Holding holdings = 6 [
+    (gogoproto.moretags) = "yaml:\"holdings\"",
+    (gogoproto.nullable) = true
+  ];
+  int64 rebalance = 7;
+  BaseDenom baseDenom = 8;
+  cosmos.base.v1beta1.Coin startingPrice = 9 [
+    (gogoproto.moretags) = "yaml:\"starting_price\"",
+    (gogoproto.nullable) = true
+  ];
+  string creator = 10;
+  bool rebalancing = 11;
+  int64  lastRebalanceHeight = 12;
+  map<string, Balances> balances = 13;
+}
+

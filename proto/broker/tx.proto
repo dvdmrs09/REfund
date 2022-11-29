@@ -1,0 +1,37 @@
+syntax = "proto3";
+package defundlabs.defund.broker;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/defund-labs/defund/x/broker/types";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
+
+// Msg defines the Msg service.
+service Msg {
+    // Register defines a rpc handler for MsgAddLiquiditySource
+    rpc AddLiquiditySource(MsgAddLiquiditySource) returns (MsgAddLiquiditySourceResponse);
+  rpc AddConnectionBroker(MsgAddConnectionBroker) returns (MsgAddConnectionBrokerResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgAddLiquiditySource {
+  string creator = 1;
+  string brokerId = 2;
+  uint64 poolId = 3;
+}
+
+message MsgAddLiquiditySourceResponse {
+}
+
+message MsgAddConnectionBroker {
+  string creator = 1;
+  string brokerId = 2;
+  string connectionId = 3;
+}
+
+message MsgAddConnectionBrokerResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

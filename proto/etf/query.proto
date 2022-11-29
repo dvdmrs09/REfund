@@ -1,0 +1,58 @@
+syntax = "proto3";
+package defundlabs.defund.etf;
+
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "etf/fund.proto";
+// this line is used by starport scaffolding # 1
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/defund-labs/defund/x/etf/types";
+
+// Query defines the gRPC querier service.
+service Query {
+    // Queries a fund by symbol.
+	rpc Fund(QueryGetFundRequest) returns (QueryGetFundResponse) {
+		option (google.api.http).get = "/defund-labs/defund/etf/fund/{symbol}";
+	}
+
+	// Queries a list of fund items.
+	rpc FundAll(QueryAllFundRequest) returns (QueryAllFundResponse) {
+		option (google.api.http).get = "/defund-labs/defund/etf/fund";
+	}
+
+	// Queries a list of fundPrice items.
+	rpc FundPrice(QueryFundPriceRequest) returns (QueryFundPriceResponse) {
+		option (google.api.http).get = "/defund-labs/defund/etf/fundPrice";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+message QueryGetFundRequest {
+	  string symbol = 1;
+
+}
+
+message QueryGetFundResponse {
+	Fund fund = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllFundRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllFundResponse {
+	repeated Fund fund = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryFundPriceRequest {
+  string symbol = 1;
+}
+
+message QueryFundPriceResponse {
+	FundPrice price = 1 [(gogoproto.nullable) = false];
+}
+
+// this line is used by starport scaffolding # 3

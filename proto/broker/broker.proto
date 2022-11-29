@@ -1,0 +1,52 @@
+syntax = "proto3";
+package defundlabs.defund.broker;
+
+import "gogoproto/gogo.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/defund-labs/defund/x/broker/types";
+
+message Source {
+    uint64 pool_id = 1;
+    string interquery_id = 2;
+    string status = 3;
+}
+
+message Broker {
+    string id = 1;
+    string connection_id = 2 [(gogoproto.moretags) = "yaml:\"connection_id\""];
+    repeated Source pools = 3;
+    string status = 4;
+}
+
+message Transfer {
+    string id = 1;
+    string channel = 2;
+    uint64 sequence = 3;
+    string status = 4;
+    cosmos.base.v1beta1.Coin token = 5;
+    string sender = 6;
+    string receiver = 7;
+    // if we need to stake the transfer on completion or not
+    bool stake = 8;
+}
+
+message Redeem {
+    string id = 1;
+    string creator = 2;
+    string fund = 3;
+    cosmos.base.v1beta1.Coin amount = 4;
+    string status = 5;
+    string type = 6;
+    // if the type is staked, we need a timestamp for when it will be unstaked
+    string unstakeTimestamp = 7;
+  }
+  
+  message Rebalance {
+    string id = 1;
+    string fund = 2;
+    // the height the rebalance was created
+    int64 height = 3;
+    string broker = 4;
+  }
